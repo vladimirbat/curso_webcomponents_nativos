@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Template sin Custom Element</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"/>
+    <style>
+        div.pagina{
+            padding: 2.5rem;
+        }
+    </style>
+    
+    <script>
+        // ############ Custom Element que usa una plantilla ##################3
+        customElements.define('borde-con-sombra', class extends HTMLElement{
+            constructor(){
+                super();
+            }
+            connectedCallback(){
+                // =====> Insertar la plantilla #plantilla en el shadow DOM del Custom Event.
+                
+            }            
+        });
+
+        // ############ Inicialización ##################3
+        document.addEventListener('DOMContentLoaded',()=>{
+           
+        });
+    </script>
+</head>
+<body>
+    <template id="plantilla">
+        <style>
+            p {border: 1px solid black;box-shadow: 10px 5px 5px gray;padding: 2em;}
+            li {background-color: aqua;}
+        </style>
+        <p><slot name="texto-interior">Mi texto predeterminado</slot></p>
+        <p><button>OK</button></p>
+    </template>
+    <div class="container">
+        <div class="row">
+            <div class="column column-25">
+                <borde-con-sombra>
+                    <!-- insertar en un slot de nombre 'texto-interior' un slot que muestre esta lista -->
+                    
+                        <!-- <ul>
+                            <li>¡Lunes!</li>
+                            <li>¡Martes!</li>
+                        </ul>
+                        <button>List</button> -->
+
+                
+            </div>
+        </div>
+    </div>
+    <button>KO</button>
+</body>
+</html>

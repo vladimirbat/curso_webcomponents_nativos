@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Template sin Custom Element</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"/>
+
+
+    <style>
+        div#marco{
+            background-color:cornsilk; padding: 2em;
+        }
+    </style>
+    
+    <script>
+        // ############ Inicialización ##################3
+        document.addEventListener('DOMContentLoaded',()=>{
+            // =======> Asignar al botón #mostrarPlantilla un evento
+            // que inserte una copia del contenido de la plantilla(#plantilla)
+            // dentro del element #marco
+            document.querySelector('#mostrarPlantilla').addEventListener('click', () => {
+                const plantilla = document.querySelector("#plantilla");
+                const content = plantilla.content;
+                const fragment = content.cloneNode(true);
+                const destino = document.querySelector('#marco');
+                destino.appendChild(fragment);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- =======> crear una plantilla con id #plantilla que 
+        muestre una lista de datos. -->
+        <h2>Ejemplo de HTML template (sin Custom Elements)</h2>
+        <div class="row">
+            <div class="column column-25">
+                <button id="mostrarPlantilla">Mostrar Plantilla</button>
+            </div>
+            <div id="marco" class="column column-75">
+            
+            </div>    
+        </div>
+    </div>
+</body>
+</html>
