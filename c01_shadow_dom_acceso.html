@@ -60,12 +60,12 @@
         });
         // ############ Inicialización ##################3
         document.addEventListener('DOMContentLoaded',()=>{
-            // document.querySelectorAll('div.borde').forEach((element)=> element.style.border = '6px solid pink');
-            // document.querySelector('sin-shadow-dom').querySelector('div').style.backgroundColor = 'navy';
-            // document.querySelector('shadow-dom-open').shadowRoot.querySelector('div').style.backgroundColor = 'navy';
-            // if(!document.querySelector('shadow-dom-closed').shadowRoot) {
-            //     document.querySelector('#comentarios-closed').innerHTML = 'Componente shadow-dom-closed inaccesible por DOM externo';
-            // }
+            document.querySelectorAll('div.borde').forEach((element)=> element.style.border = '6px solid pink');
+            document.querySelector('sin-shadow-dom').querySelector('div').style.backgroundColor = 'navy';
+            document.querySelector('shadow-dom-open').shadowRoot.querySelector('div').style.backgroundColor = 'navy';
+            if(!document.querySelector('shadow-dom-closed').shadowRoot) {
+                document.querySelector('#comentarios-closed').innerHTML = 'Componente shadow-dom-closed inaccesible por DOM externo';
+            }
         });
     </script>
 </head>
