@@ -1,52 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom Element con JS</title>
     <style>
-        div.pagina{
+        div.pagina {
             padding: 2.5rem;
         }
+
         div.saludo {
             border: 1px solid black;
             background-color: darkkhaki;
         }
     </style>
-    
+
     <script>
         // =====> Declara la clase de un Custom Element llamado HolaMundoComponent y 
+        class HolaMundoComponent extends HTMLElement {
+            constructor() {
+                super();
+                this.insertado = false;
+                console.log('Nueva instancia');
+            }
+
+            connectedCallback() {
+                if (this.isConnected && !this.insertado) {
+                    this.insertado = true;
+                    const div = document.createElement('div');
+                    div.className = 'saludo';
+                    div.textContent = 'Hola mundo!';
+                    this.appendChild(div);
+                }
+            }
+        }
+
         // registrarla con la etiqueta 'hola-mundo'
-        
+
+        customElements.define('hola-mundo', HolaMundoComponent);
+
     </script>
 </head>
+
 <body>
     <div class="pagina">
         <h1>Custom Element:</h1>
         <!-- ======> Insertar una instancia del Custom Element -->
-        
-        <hr/>
+        <hola-mundo></hola-mundo>
+
+        <hr />
         <div id="contenedor">
             <!-- ======> Insertar una instancia del Custom Element -->
+            <hola-mundo></hola-mundo>
+
 
         </div>
     </div>
     <script>
         let holaMundo;
-        function quitar(){
+        function quitar() {
             holaMundo = document.querySelector('div#contenedor>hola-mundo');
             document.getElementById('contenedor').removeChild(holaMundo);
         }
-        function poner(){
+        function poner() {
             document.getElementById('contenedor').appendChild(holaMundo);
         }
-        document.addEventListener('DOMContentLoaded', (event)=>{
-            setTimeout(()=>{
+        document.addEventListener('DOMContentLoaded', (event) => {
+            setTimeout(() => {
                 quitar();
                 setTimeout(poner, 3000);
-            },3000);
+            }, 3000);
         });
     </script>
 </body>
+
 </html>
