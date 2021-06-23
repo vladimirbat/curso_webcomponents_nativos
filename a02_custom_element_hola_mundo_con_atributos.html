@@ -28,6 +28,10 @@
                     const div = document.createElement('div');
                     div.className = 'saludo'
                     // ======> Leer los atributos de entrada (inputs) 'nombre' y 'apellidos' 
+                    const nombre = this.getAttribute('nombre');
+                    const apellido = this.getAttribute('apellido');
+                    div.textContent = `Hola ${nombre} ${apellido}`;
+
                     // e insertar en el div un texto que salude a la persona con esos datos.
                     this.appendChild(div);
                 }
@@ -47,10 +51,10 @@
     <div class="pagina">
         <h1>Custom Element:</h1>
         <!-- Agregar a esta instancia del custom element el nombre y apellidos que quieras -->
-        <hola-mundo></hola-mundo>
+        <hola-mundo nombre="Vladimir" apellido="Bataller"></hola-mundo>
         <hr/>
         <!-- Agregar a esta instancia del custom element otro  nombre y apellidos -->
-        <hola-mundo></hola-mundo>
+        <hola-mundo nombre="Sara" apellido="Moza"></hola-mundo>
     </div>
 </body>
 </html>

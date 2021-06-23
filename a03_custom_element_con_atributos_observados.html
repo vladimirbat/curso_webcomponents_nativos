@@ -35,7 +35,18 @@
                 }
             }
             // ====> Indicar que el atributo 'size' que se debe monitorizar para tenerlo en cuenta cuando cambie.
-            
+            static get observedAttributes(){
+                return ['size'];
+            }
+
+            attributeChangedCallback(attrName, oldValue, newValue) {
+                console.log('Cambiado', attrName, oldValue, '->', newValue);
+                if (attrName == 'size' && newValue) {
+                    this.size = newValue;
+                    const div = this.querySelector('div');
+                    div.style.fontSize = `${this.size}px`
+                }
+            }
 
             // ====> leer el atributo 'size' cuando cambie y llamar al método onSizeChenged pasandole el nuevo valor de ese atributo.
 
