@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Template sin Custom Element</title>
+
+    <script src="./node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+    <script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"/>
+    <style>
+        div.pagina{
+            padding: 2.5rem;
+        }
+    </style>
+    
+    <script>
+        // ############ Custom Element que usa una plantilla ##################3
+        customElements.define('modal-util', class extends HTMLElement{
+            constructor(){
+                super();
+            }
+            connectedCallback(){
+                // =====> Insertar la plantilla #plantilla en el shadow DOM del Custom Event.
+                const plantilla = document.querySelector('#plantilla');
+                const shadowRoot = this.attachShadow({mode:'open'})
+                shadowRoot.appendChild(plantilla.content.cloneNode(true));
+                this.shadowRoot.querySelector('.full').style.display = 'none'
+                shadowRoot.querySelector('.btnOcultarModal').addEventListener('click', ()=> this.cerrar());
+            }            
+            mostrar(){
+                this.shadowRoot.querySelector('.full').style.display = 'block';
+            }
+            cerrar() {
+                const options = {
+                    detail: Math.ceil(100*Math.random()),
+                    cancelable: true,
+                    bubbles: true
+                }
+                const event = new CustomEvent('cerrado',options);
+                const cancelled = !this.dispatchEvent(event);
+                if(!cancelled){
+                    this.shadowRoot.querySelector('.full').style.display = 'none';
+                }
+            }
+        });
+
+        // ############ Inicialización ##################3
+        document.addEventListener('DOMContentLoaded',()=>{
+           document.querySelector('.btnMostraModal').addEventListener('click',(event)=>{
+                document.querySelector('modal-util').mostrar();
+           });
+           let veces = 0;
+           document.querySelector('modal-util').addEventListener('cerrado', (event)=> {
+               veces++;
+               if(veces%3!==0){
+                   document.querySelector('#veces').innerHTML = `Se ha cerrando ${veces} veces`;
+               } else {
+                   event.preventDefault();
+                   event.stopPropagation();
+               }
+           });
+           document.querySelector('body').addEventListener('cerrado', (event)=> {
+               console.log('Evento cerrado recibido por el body, dato', event.detail )
+           });
+        });
+    </script>
+</head>
+<body>
+    <template id="plantilla">
+        <style>
+          div.full {
+                position: fixed;
+                left:0px; top:0px; right: 0px; bottom: 0px;
+                background-color: rgba(100,100,100,0.6);
+            }
+            div.modal {
+                margin: 3rem auto;
+                min-height: 300px;
+                width: 50%;
+                background-color: white;
+            }
+            div.titulo {
+                color: white;
+                background-color: teal;
+                padding: 0.6rem 2rem;
+            }
+            div.contenido {
+                padding: 2rem;
+            }
+        </style>
+        <div class="full">
+            <div class="modal">
+                <div class="titulo">
+                    <slot name="slot-titulo">Titulo por defecto</slot>
+                </div>
+                <div class="contenido">
+                    <slot name="slot-contenido">Contenido por defecto</slot>
+                    <button class="btnOcultarModal button">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </template>
+    <div class="container">
+        <div class="row">
+            <div class="column column-25">
+                <button class="btnMostraModal">Mostrar modal</button>
+            </div>
+            <div class="column column-25">
+                <span id="veces"></span>
+            </div>
+        </div>
+    </div>
+    <modal-util>
+        <span slot="slot-titulo">Ventana Emergente</span>
+        <div slot="slot-contenido">email: <input type="text"/></div>
+    </modal-util>
+</body>
+</html>
