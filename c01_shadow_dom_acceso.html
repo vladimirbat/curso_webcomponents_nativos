@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Element con JS</title>
+    <title>Conbinaciones Shadow DOM</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"/>
+    <style>
+        div.pagina{
+            padding: 2.5rem;
+            background-color: beige;
+        }
+        h2{
+            margin-top: 6rem;
+        }
+        :root{
+            --span-bg-color: olive;
+            --span-color: white;
+        }
+        div.borde {
+            box-shadow: 10px 5px 5px gray;
+        }
+        
+    </style>
+    
+    <script>
+        // ############ Sin Shadow DOM ##################3
+        customElements.define('sin-shadow-dom',class extends HTMLElement {
+            constructor(){
+                super();
+            }
+            connectedCallback(){
+                const plantilla = document.getElementById('plantilla');
+                this.appendChild(plantilla.content.cloneNode(true));
+            }
+        });
+        // ############ Shadow DOM Open ##################3
+        customElements.define('shadow-dom-open',class extends HTMLElement {
+            constructor(){
+                super();
+            }
+            connectedCallback(){
+                const plantilla = document.getElementById('plantilla');
+                this.attachShadow({mode:"open"}).appendChild(plantilla.content.cloneNode(true));
+            }
+        });
+        // ############ Shadow DOM Closed ##################3
+        customElements.define('shadow-dom-closed',class extends HTMLElement {
+            constructor(){
+                super();
+            }
+            connectedCallback(){
+                const plantilla = document.getElementById('plantilla');
+                this.attachShadow({mode:"closed"}).appendChild(plantilla.content.cloneNode(true));
+            }
+        });
+        // ############ Inicialización ##################3
+        document.addEventListener('DOMContentLoaded',()=>{
+            // document.querySelectorAll('div.borde').forEach((element)=> element.style.border = '6px solid pink');
+            // document.querySelector('sin-shadow-dom').querySelector('div').style.backgroundColor = 'navy';
+            // document.querySelector('shadow-dom-open').shadowRoot.querySelector('div').style.backgroundColor = 'navy';
+            // if(!document.querySelector('shadow-dom-closed').shadowRoot) {
+            //     document.querySelector('#comentarios-closed').innerHTML = 'Componente shadow-dom-closed inaccesible por DOM externo';
+            // }
+        });
+    </script>
+</head>
+<body>
+    <template id="plantilla">
+        <style>
+            span {
+                background-color: var(--span-bg-color);
+                color: var(--span-color);
+            }
+            div.borde{ height: 8rem;}
+        </style>
+        <div class="borde">
+            <button>Enviar</button>
+            <span>Texto fondo con custom properties</span>
+        </div>
+    </template>
+    <div class="pagina">
+        <h2>Sin Shadow DOM</h2>
+        <sin-shadow-dom></sin-shadow-dom>
+        <h2>Shadow DOM open</h2>
+        <shadow-dom-open></shadow-dom-open>
+        <h2>Shadow DOM closed</h2>
+        <shadow-dom-closed></shadow-dom-closed>
+        <div id="comentarios-closed"></div>
+    </div>
+</body>
+</html>
