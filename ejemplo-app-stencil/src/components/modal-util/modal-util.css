@@ -1,0 +1,23 @@
+:host {
+ display: block;
+}
+
+div.full {
+  position: fixed;
+  left:0px; top:0px; right: 0px; bottom: 0px;
+  background-color: rgba(100,100,100,0.6);
+}
+div.modal {
+  margin: 3rem auto;
+  min-height: 300px;
+  width: 50%;
+  background-color: white;
+}
+div.titulo {
+  color: white;
+  background-color: teal;
+  padding: 0.6rem 2rem;
+}
+div.contenido {
+  padding: 2rem;
+}
